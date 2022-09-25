@@ -1,19 +1,18 @@
 //  Creates connection to mySQL
 
-const mysql = require("mySQL2");
+const mysql = require("mysql2");
 
 const connection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "kinderbueno1234",
+    password: "",
     database: "employeelist",
 })
 
 connection.connect(function (err) {
     if (err) throw err;
 
-     // run the askQuestons function after the connection is made to prompt the user
-   askQuestions();
+  console.log('Connected to database!')
 });
 
 

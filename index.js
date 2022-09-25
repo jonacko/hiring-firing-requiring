@@ -1,14 +1,16 @@
 // List dependencies
+const inquirer = require('inquirer');
+const consoleTable = require('console.table');
+const util = require('util');
+const connection = require('./db/connection');
 
 // Welcome message
 
-console.log(chalk.yellow.bold('======================================================================================================='));
+console.log('=======================================================================================================');
 console.log(``);
-console.log(chalk.red.bold(figlet.textSync('EMPLOYEE TRACKER')));
+console.log(('EMPLOYEE TRACKER'));
 console.log(``);
-console.log(`                               ` + chalk.green.bold('(C)ONTENT (M)ANAGEMENT (S)YSTEM'));
-console.log(``);
-console.log(chalk.yellow.bold(`======================================================================================================`));)
+console.log(`======================================================================================================`);
 
 // Prompts
 
@@ -68,3 +70,34 @@ function askQuestions() {
             };
         });
 };
+
+
+
+// Create functions to: 
+
+// view all employees; 
+
+const viewEmployees = () => {
+    const query = 'SELECT * FROM employee';
+    connection.query(query, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        console.log('jhwefjefj');
+    })
+    askQuestions();
+}
+
+
+// view all departments; 
+
+// view all roles; 
+
+// add new employee; 
+
+// add new department; 
+
+// add new role; 
+
+// update employee role
+
+askQuestions();
