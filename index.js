@@ -303,7 +303,6 @@ const addRole = async () => {
                     }
                 );
                 console.log('NEW ROLE ADDED')
-                viewEmployees()
                 viewRoles();
             });
 
@@ -311,4 +310,10 @@ const addRole = async () => {
 
 };
 
-// askQuestions();
+// BONUSES:
+
+// Update employee managers
+// View employees by manager;
+// View employees by department;
+// Delete department, roles, employees;
+// View total utilized budget - combined salaries or employees;
