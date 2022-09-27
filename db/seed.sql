@@ -5,21 +5,21 @@ INSERT INTO department
 
 VALUES
 ('Sales'),
-('Support'),
-('Marketing'),
-('Development');
+('Engineering'),
+('Finance'),
+('Legal');
 
 INSERT INTO role (title, salary, department_id)
 
 VALUES
 ('Sales Manager', 60000.60, 1),
 ('Sales Associate', 40000.40, 1),
-('Support Manager', 65000.65, 2),
-('Support Associate', 6500.65, 2),
-('Marketing Manager', 70000.70, 3),
-('Marketing Associate', 50000.55, 3),
-('Development Manager', 100000.10, 4),
-('Development Associate', 80000.88, 4);
+('Engineering Manager', 65000.65, 2),
+('Engineering Associate', 6500.65, 2),
+('Finance Manager', 70000.70, 3),
+('Finance Associate', 50000.55, 3),
+('Legal Manager', 100000.10, 4),
+('Legal Associate', 80000.88, 4);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 
