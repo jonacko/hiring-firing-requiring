@@ -1,6 +1,6 @@
 # hiring-firing-requiring
 - Module 12 assignment for UoB Bootcamp due 28-09-22
-- Walkthrough video link: 
+- Walkthrough video link: https://drive.google.com/file/d/1RaSVKWTYEeYSD_i8qDU2sA0Ki7MkEfpC/view
 
 Contents:
 
@@ -57,11 +57,9 @@ The database schema is as follows:
 
 Please see commented out code for more details, but key issues are as follows:
 
-- adding employee shows as double in the command line, and doubles up on information
-
 TODO: 
 
-- link manager id's to manager names
+- manager ID's are hard coded in addEmployee function; write additional query within this function to get manager from database
 
 - bonuses:
     - Update employee managers

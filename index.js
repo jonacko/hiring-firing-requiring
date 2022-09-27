@@ -76,9 +76,10 @@ function askQuestions() {
 // view all employees; 
 
 const viewEmployees = async () => {
-    const query = 'SELECT * FROM employee';
+    const query = 'SELECT employee.id, employee.first_name, employee.last_name, employee.role_id, CONCAT(manager.first_name, " ", manager.last_name)  AS manager_full_name, manager.id FROM employee left join employee manager ON manager.id = employee.manager_id';
     connection.query(query, (err, res) => {
         if (err) throw err;
+        console.log('\n');
         console.table(res);
         console.log('CURRENTLY VIEWING EMPLOYEES');
     })
@@ -92,6 +93,7 @@ const viewDepartments = async () => {
     const query = 'SELECT * FROM department';
     connection.query(query, (err, res) => {
         if (err) throw err;
+        console.log('\n');
         console.table(res);
         console.log('CURRENTLY VIEWING DEPARTMENTS');
     })
@@ -105,6 +107,7 @@ const viewRoles = async () => {
     const query = 'SELECT * FROM role';
     connection.query(query, (err, res) => {
         if (err) throw err;
+        console.log('\n');
         console.table(res);
         console.log('CURRENTLY VIEWING ROLES');
     })
@@ -122,6 +125,7 @@ const addEmployee = async () => {
                 value: role.id,
             };
         });
+    
         inquirer
             .prompt([
                 {
@@ -144,6 +148,14 @@ const addEmployee = async () => {
                     type: 'list',
                     name: 'managerId',
                     message: 'Please select a manager id:',
+
+                    // TODO: add another query inside this function so manager ID's aren't hard coded - something like: 
+                    // connection.query('SELECT manager_full_name FROM employee', (err, managers) => {
+                    //     if (err) console.log(err);
+                    //     roles = roles.map((role) => {
+                    //         return {
+                    //             name: manager_full_name
+                    //         };
                     choices: [1, 3, 5, 7, 9]
                 }
             ])
@@ -310,10 +322,10 @@ const addRole = async () => {
 
 };
 
-// BONUSES:
+// BONUSES - TODO:
 
-// Update employee managers
-// View employees by manager;
-// View employees by department;
+// Update employee managers;
+// View employees by manager - do this by using join / WHERE clause;
+// View employees by department do this by using join / WHERE clause;
 // Delete department, roles, employees;
-// View total utilized budget - combined salaries or employees;
+// View total utilized budget - combined salaries of employees - 3 way join!?;
