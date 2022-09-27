@@ -8,9 +8,9 @@ const connection = require('./db/connection');
 
 console.log('=======================================================================================================');
 console.log(``);
-console.log(('EMPLOYEE TRACKER'));
+console.log((' * * * * * * * * * * * * * * * * * * * * * * EMPLOYEE TRACKER * * * * * * * * * * * * * * * * * * * * * '));
 console.log(``);
-console.log(`======================================================================================================`);
+console.log(`=======================================================================================================`);
 
 // Prompts
 
@@ -77,12 +77,12 @@ function askQuestions() {
 
 // view all employees; 
 
-const viewEmployees = () => {
+const viewEmployees = async () => {
     const query = 'SELECT * FROM employee';
     connection.query(query, (err, res) => {
         if (err) throw err;
         console.table(res);
-        console.log('jhwefjefj');
+        console.log('viewing employees');
     })
     askQuestions();
 }
@@ -90,9 +90,87 @@ const viewEmployees = () => {
 
 // view all departments; 
 
+const viewDepartments = async () => {
+    const query = 'SELECT * FROM department';
+    connection.query(query, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        console.log('viewing departments');
+    })
+    askQuestions();
+}
+
+
 // view all roles; 
 
+const viewRoles = async () => {
+    const query = 'SELECT * FROM role';
+    connection.query(query, (err, res) => {
+        if (err) throw err;
+        console.table(res);
+        console.log('viewing roles');
+    })
+    askQuestions();
+}
+
 // add new employee; 
+
+// const addEmployee = () => {
+//     connection.query('SELECT * FROM role', (err, roles) => {
+//         if (err) console.log(err);
+//         roles = roles.map((role) => {
+//             return {
+//                 name: role.title,
+//                 value: role.id,
+//             };
+//         });
+//         inquirer
+//             .prompt([
+//                 {
+//                     type: 'input',
+//                     name: 'firstName',
+//                     message: 'Enter first name of new employee...'
+//                 },
+//                 {
+//                     type: 'input',
+//                     name: 'lastName',
+//                     message: 'Enter last name of new employee...'
+//                 },
+//                 {
+//                     type: 'list',
+//                     name: 'role',
+//                     message: 'Enter new employee role...',
+//                     choices: roles,
+//                 },
+//                 {
+//                     type: 'list',
+//                     name: 'managerId',
+//                     message: 'select a manager id...',
+//                     choices: [1, 3, 5, 6, 7]
+//                 }
+//             ])
+//             .then((data) => {
+//                 console.log(data.role);
+//                 connection.query(
+//                     'INSERT INTO employee SET ?',
+//                     {
+//                         first_name: data.firstName,
+//                         last_name: data.lastName,
+//                         role_id: data.role,
+//                         manager_id: data.managerId
+//                     },
+//                     (err) => {
+//                         if (err) throw err;
+//                         console.log('Updated Employee Roster;');
+//                         viewAllEmployees();
+
+//                     }
+//                 );
+//             });
+
+//     });
+
+// };
 
 // add new department; 
 
