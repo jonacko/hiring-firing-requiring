@@ -71,8 +71,6 @@ function askQuestions() {
         });
 };
 
-
-
 // Create functions to: 
 
 // view all employees; 
@@ -82,7 +80,7 @@ const viewEmployees = async () => {
     connection.query(query, (err, res) => {
         if (err) throw err;
         console.table(res);
-        console.log('viewing employees');
+        console.log('CURRENTLY VIEWING EMPLOYEES');
     })
     askQuestions();
 }
@@ -95,7 +93,7 @@ const viewDepartments = async () => {
     connection.query(query, (err, res) => {
         if (err) throw err;
         console.table(res);
-        console.log('viewing departments');
+        console.log('CURRENTLY VIEWING DEPARTMENTS');
     })
     askQuestions();
 }
@@ -108,74 +106,209 @@ const viewRoles = async () => {
     connection.query(query, (err, res) => {
         if (err) throw err;
         console.table(res);
-        console.log('viewing roles');
+        console.log('CURRENTLY VIEWING ROLES');
     })
     askQuestions();
 }
 
 // add new employee; 
 
-// const addEmployee = () => {
-//     connection.query('SELECT * FROM role', (err, roles) => {
-//         if (err) console.log(err);
-//         roles = roles.map((role) => {
-//             return {
-//                 name: role.title,
-//                 value: role.id,
-//             };
-//         });
-//         inquirer
-//             .prompt([
-//                 {
-//                     type: 'input',
-//                     name: 'firstName',
-//                     message: 'Enter first name of new employee...'
-//                 },
-//                 {
-//                     type: 'input',
-//                     name: 'lastName',
-//                     message: 'Enter last name of new employee...'
-//                 },
-//                 {
-//                     type: 'list',
-//                     name: 'role',
-//                     message: 'Enter new employee role...',
-//                     choices: roles,
-//                 },
-//                 {
-//                     type: 'list',
-//                     name: 'managerId',
-//                     message: 'select a manager id...',
-//                     choices: [1, 3, 5, 6, 7]
-//                 }
-//             ])
-//             .then((data) => {
-//                 console.log(data.role);
-//                 connection.query(
-//                     'INSERT INTO employee SET ?',
-//                     {
-//                         first_name: data.firstName,
-//                         last_name: data.lastName,
-//                         role_id: data.role,
-//                         manager_id: data.managerId
-//                     },
-//                     (err) => {
-//                         if (err) throw err;
-//                         console.log('Updated Employee Roster;');
-//                         viewAllEmployees();
+const addEmployee = async () => {
+    connection.query('SELECT * FROM role', (err, roles) => {
+        if (err) console.log(err);
+        roles = roles.map((role) => {
+            return {
+                name: role.title,
+                value: role.id,
+            };
+        });
+        inquirer
+            .prompt([
+                {
+                    type: 'input',
+                    name: 'firstName',
+                    message: 'Please enter first name of new employee:'
+                },
+                {
+                    type: 'input',
+                    name: 'lastName',
+                    message: 'Please enter last name of new employee:'
+                },
+                {
+                    type: 'list',
+                    name: 'role',
+                    message: 'Please enter new employee role:',
+                    choices: roles,
+                },
+                {
+                    type: 'list',
+                    name: 'managerId',
+                    message: 'Please select a manager id:',
+                    choices: [1, 3, 5, 7, 9]
+                }
+            ])
+            .then((data) => {
+                console.log(data.role);
+                connection.query(
+                    'INSERT INTO employee SET ?',
+                    {
+                        first_name: data.firstName,
+                        last_name: data.lastName,
+                        role_id: data.role,
+                        manager_id: data.managerId
+                    },
+                    (err) => {
+                        if (err) throw err;
+                        console.log('EMPLOYEE RECORDS UPDATED');
+                        viewEmployees();
 
-//                     }
-//                 );
-//             });
+                    }
+                );
+            });
 
-//     });
+    });
 
-// };
+};
 
 // add new department; 
 
+const addDepartment = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'newDepartment',
+                message: 'Please enter new department name:'
+            },
+        ])
+        .then((data) => {
+            connection.query('INSERT INTO department SET ?',
+                {
+                    name: data.newDepartment,
+                },
+                function (err) {
+                    if (err) throw err;
+                }
+            );
+            console.log('NEW DEPARTMENT ADDED')
+            viewDepartments();
+        });
+};
+
+
+connection.connect((err) => {
+    if (err) throw err;
+
+
+    askQuestions();
+
+});
+
+// update employee role:
+
+const updateEmployee = async () => {
+    connection.query('SELECT * FROM employee', (err, employees) => {
+        if (err) console.log(err);
+        employees = employees.map((employee) => {
+            return {
+                name: `${employee.first_name} ${employee.last_name}`,
+                value: employee.id,
+            };
+        });
+        connection.query('SELECT * FROM role', (err, roles) => {
+            if (err) console.log(err);
+            roles = roles.map((role) => {
+                return {
+                    name: role.title,
+                    value: role.id,
+                }
+            });
+            inquirer
+                .prompt([
+                    {
+                        type: 'list',
+                        name: 'selectEmployee',
+                        message: 'Please select employee to update:',
+                        choices: employees,
+                    },
+                    {
+                        type: 'list',
+                        name: 'selectNewRole',
+                        message: 'Please select employee role:',
+                        choices: roles,
+                    },
+                ])
+                .then((data) => {
+                    connection.query('UPDATE employee SET ? WHERE ?',
+                        [
+                            {
+                                role_id: data.selectNewRole,
+                            },
+                            {
+                                id: data.selectEmployee,
+                            },
+                        ],
+                        function (err) {
+                            if (err) throw err;
+                        }
+                    );
+                    console.log('EMPLOYEE ROLE UPDATED');
+                    viewRoles();
+                });
+
+        });
+    });
+};
+
 // add new role; 
 
-// update employee role
+const addRole = async () => {
+    connection.query('SELECT * FROM department', (err, departments) => {
+        if (err) console.log(err);
+        departments = departments.map((department) => {
+            return {
+                name: department.name,
+                value: department.id,
+            };
+        });
+        inquirer
+            .prompt([
+                {
+                    type: 'input',
+                    name: 'newRole',
+                    message: 'Please enter title of new role:'
+                },
+                {
+                    type: 'input',
+                    name: 'salary',
+                    message: 'Please enter salary of new role:',
+                },
+                {
+                    type: 'list',
+                    name: 'departmentId',
+                    message: 'Please enter department of new role:',
+                    choices: departments,
+                },
+            ])
+            .then((data) => {
+                connection.query(
+                    'INSERT INTO role SET ?',
+                    {
+                        title: data.newRole,
+                        salary: data.salary,
+                        department_id: data.departmentId,
+                    },
+                    function (err) {
+                        if (err) throw err;
+                    }
+                );
+                console.log('NEW ROLE ADDED')
+                viewEmployees()
+                viewRoles();
+            });
 
-askQuestions();
+    });
+
+};
+
+// askQuestions();
